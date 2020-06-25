@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-
-import 'package:test_app_flutter/constants.dart';
 import 'package:test_app_flutter/homepage.dart';
 
 /*
@@ -27,9 +25,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      title: title,
       theme: ThemeData(
-        primarySwatch: primaryColor,
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
       home: MyHomePage(),

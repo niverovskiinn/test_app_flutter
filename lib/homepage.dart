@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:test_app_flutter/constants.dart';
+import 'package:test_app_flutter/configs/constants.dart' as Constants;
+import 'package:test_app_flutter/services/ColorService.dart';
 
 class MyHomePage extends StatefulWidget {
   @override
@@ -7,40 +8,44 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
+  Color backgroundColor;
+  final ColorService colorService = ColorService();
 
-  void _incrementCounter() {
+  @override
+  void initState() {
+    super.initState();
+    this.backgroundColor = colorService.generateColor();
+  }
+
+  void changeColor() {
     setState(() {
-      _counter+=15;
+      this.backgroundColor = colorService.generateColor();
+    });
+  }
+
+  void updColor(DragUpdateDetails e) {
+    setState(() {
+      if (e.delta.dx != 0)
+        this.backgroundColor =
+            colorService.changeAlpha(backgroundColor, e.delta.dx);
+      if (e.delta.dy != 0)
+        this.backgroundColor =
+            colorService.changeOpacity(backgroundColor, e.delta.dy);
     });
   }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Colors.indigo,
-      appBar: AppBar(
-        title: Text(title),
-      ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            Text(
-              'You have pushed the button this many times:',
-            ),
-            Text(
-              '$_counter',
-              style: Theme.of(context).textTheme.headline4,
-            ),
-          ],
-        ),
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
-        child: Icon(Icons.add),
-      ),
-    );
+    return GestureDetector(
+        onTap: changeColor,
+        onPanUpdate: updColor,
+        child: Scaffold(
+          backgroundColor: this.backgroundColor,
+          body: Center(
+              child: Text(
+            Constants.mainText,
+            style: TextStyle(fontSize: Constants.textSize),
+          )),
+        ));
   }
 }

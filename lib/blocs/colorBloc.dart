@@ -5,7 +5,6 @@ import 'package:flutter/material.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:test_app_flutter/config/constants.dart' as Constants;
 
-
 class ColorBloc {
   Color _color;
 
@@ -15,10 +14,7 @@ class ColorBloc {
     _changeColor.add(_color);
   }
 
-  final _colorStream =
-      BehaviorSubject<Color>.seeded(_generateColor());
-  
-  void nextColor() => _changeColor.add(_generateColor());
+  final _colorStream = BehaviorSubject<Color>.seeded(_generateColor());
 
   Stream<Color> get backgroundColor => _colorStream.stream;
 
@@ -48,4 +44,9 @@ class ColorBloc {
     return Color.fromRGBO(_random.nextInt(255), _random.nextInt(255),
         _random.nextInt(255), Constants.colorOpacity);
   }
+
+  void nextColor() => _changeColor.add(_generateColor());
+
+  void changeColorOpacity(double opacity) =>
+      _changeColor.add(_color.withOpacity(opacity));
 }

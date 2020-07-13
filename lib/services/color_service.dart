@@ -1,15 +1,16 @@
 import 'dart:math';
-
 import 'package:flutter/material.dart';
 import 'package:test_app_flutter/configs/constants.dart' as Constants;
 
 class ColorService {
-  var random = new Random();
+  var _random = new Random();
 
   Color generateColor() {
-    return Color.fromRGBO(random.nextInt(255), random.nextInt(255),
-        random.nextInt(255), Constants.colorOpacity);
+    return Color.fromRGBO(_random.nextInt(256), _random.nextInt(256),
+        _random.nextInt(256), _random.nextInt(1<<32)/(1<<32));
   }
+
+  List<Color> generateColors(int amount) => List.generate(amount, (_) => generateColor());
 
   Color changeOpacity(Color color, double d) {
     var newOpacity = color.opacity + d;

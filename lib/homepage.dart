@@ -3,7 +3,6 @@ import 'package:test_app_flutter/configs/constants.dart' as Constants;
 import 'package:test_app_flutter/services/color_service.dart';
 
 class MyHomePage extends StatefulWidget {
-
   @override
   _MyHomePageState createState() => _MyHomePageState();
 }
@@ -18,6 +17,14 @@ class _MyHomePageState extends State<MyHomePage> {
     this.backgroundColor = colorService.generateColor();
   }
 
+  List<TextSpan> getLetters(String word) {
+    List<Color> colors = colorService.generateColors(word.length);
+    return List<TextSpan>.generate(word.length, (index) {
+      return TextSpan(
+          text: word[index], style: TextStyle(color: colors[index]));
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
@@ -26,9 +33,8 @@ class _MyHomePageState extends State<MyHomePage> {
         child: Scaffold(
           backgroundColor: this.backgroundColor,
           body: Center(
-              child: Text(
-            Constants.mainText,
-            style: TextStyle(fontSize: Constants.textSize),
+              child: RichText(
+            text: TextSpan(children: getLetters(Constants.mainText)),
           )),
         ));
   }
